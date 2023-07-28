@@ -1,14 +1,7 @@
 # exec(open("./setup_data.py").read())
 
-from move_app.models import Move
-from pokemon_app.models import Pokemon
+from wine_api.models import Wine
 
-psychic = Move(name = 'Psychic')
-psychic.save()
-
-charizard = Pokemon(name = 'Charizard', level = 25, date_encountered = "2007-04-07", captured = True)
-charizard.save()
-
-pokemon1 = Pokemon.objects.get(id=1)  # Retrieve a Pokemon object
-move1 = Move.objects.get(id=1) 
-pokemon1.moves.add(move1)
+Wine.objects.create(wine_name="Wood Shavings", price=25, varietal="Merlot", description="Savor the woodshop")
+Wine.objects.create(wine_name="Apple Muffins", price=35, varietal="Malbec", description="Fruity Dessert")
+Wine.objects.create(wine_name="Trails", price=15, varietal="Zinfandel", description="Keep it in your camelback")

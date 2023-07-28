@@ -3,7 +3,7 @@ from django.utils import timezone
 
 class Wine(models.Model):
     wine_name = models.CharField(max_length=255)
-    price = models.CharField(max_length=10)
+    price = models.IntegerField()
     varietal = models.CharField(max_length=255)
     description = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
