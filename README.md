@@ -1,6 +1,6 @@
 # Dockerize and Deploy a DRF API
 
-Apply today's lesson to a DRF app of your choice, then deploy it on AWS using the playbook from [Sat Aug 15](https://github.com/CP-Evenings-and-Weekends/curriculum/blob/main/Module_04_Fullstack/week11/day4/README.md).
+Apply today's lesson to a DRF app of your choice, then deploy it on AWS using the steps from the [Deploying to AWS with Docker](https://github.com/CP-Evenings-and-Weekends/curriculum/blob/main/Module_04_Fullstack/week11/day4/README.md) lesson.
 
 By the end you'll have:
 1. A DRF app running locally as two containers (Django + Postgres) via `docker compose`
@@ -46,7 +46,7 @@ docker push <YOUR_DOCKERHUB_USERNAME>/<app-name>
 
 ### 3. Deploy to AWS
 
-Follow the [Sat Aug 15 lesson](https://github.com/CP-Evenings-and-Weekends/curriculum/blob/main/Module_04_Fullstack/week11/day4/README.md) playbook:
+Follow the [Deploying to AWS with Docker](https://github.com/CP-Evenings-and-Weekends/curriculum/blob/main/Module_04_Fullstack/week11/day4/README.md) lesson:
 
 1. Launch an EC2 instance (Amazon Linux 2023, t2.micro free tier)
 2. `chmod 400 <KEYNAME>.pem` (don't skip this — SSH refuses world-readable keys)
