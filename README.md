@@ -12,7 +12,7 @@ By the end you'll have:
 Any one of these will do — pick what sounds most fun:
 - Your own **School API** repo from week 12 (already has the models you built)
 - The lesson's [drf-wine-api](https://github.com/CP-Evenings-and-Weekends/drf-wine-api) (smallest, fastest to deploy)
-- The [Article Publications](https://github.com/CP-Evenings-and-Weekends/article-publications) project you finished on Mon Aug 24
+- The [Article Publications](https://github.com/CP-Evenings-and-Weekends/article-publications) project, if you've built it (it's assigned in week 15)
 - Anything else with Django + DRF + a Postgres dependency
 
 The included `Dockerfile`, `docker-compose.yml`, `run_compose.sh`, and `stop_compose.sh` are starter templates with the parts you should change marked `# CHANGE ME`.
@@ -34,7 +34,7 @@ The included `Dockerfile`, `docker-compose.yml`, `run_compose.sh`, and `stop_com
   ```
 - Hit one of your endpoints with `curl` or Postman.  Confirm you get JSON back.
 
-> **Heads up**: the lesson's migration command hardcoded the container name (`drf-wine-api-api-1`).  The starter script uses `docker compose exec api ...` instead, which is name-independent.
+> **Heads up**: the starter script runs migrations with `docker compose exec api ...`, same as the lesson.  `compose exec` targets the **service** name from `docker-compose.yml`, so it works no matter what your project directory (and therefore container name) happens to be — never hardcode a full container name like `drf-wine-api-api-1`.
 
 ### 2. Push the image to Docker Hub
 
@@ -62,7 +62,7 @@ Follow the [Deploying to AWS with Docker](https://github.com/CP-Evenings-and-Wee
 - Stop and restart the containers — your data should persist (that's what the `postgres_data` volume is for)
 
 ## Things to think about
-- The lesson's Dockerfile uses `python:3.13-bookworm` because `psycopg2` (not `-binary`) needs `libpq-dev` to build.  When would you reach for `psycopg2-binary` instead, and what does that buy you?
+- The lesson's Dockerfile uses `python:3.12-slim`, which works because the wine API pins `psycopg2-binary` — it installs from a prebuilt wheel.  The starter Dockerfile here uses `python:3.13-bookworm`, a fuller image that ships the build tools and `libpq` headers needed to compile plain `psycopg2` from source, in case the app you picked pins that instead.  What does each choice buy you, and when would you insist on one over the other?
 - `sleep 5` before running migrations is fragile.  What's a more robust way to wait for Postgres to be ready?  (Hint: healthchecks + `depends_on: condition: service_healthy`.)
 - `ALLOWED_HOSTS = ['*']` works for local dev but is risky in production.  Why?  How does the host-header check protect you?
 - Your DB password is in `docker-compose.yml` right now.  What's the standard way to keep secrets out of source control on AWS?  (Hint: env vars from a `.env` file you don't commit.)
