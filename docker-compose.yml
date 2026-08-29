@@ -7,10 +7,10 @@ services:
       - db
   db:
     image: postgres:16
+    env_file:
+      - .env
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      # CHANGE ME: match the NAME in your Django settings.py DATABASES block
       - POSTGRES_DB=wines
     volumes:
       - postgres_data:/var/lib/postgresql/data
