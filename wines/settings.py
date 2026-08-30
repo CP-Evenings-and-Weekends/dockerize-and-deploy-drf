@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-9#4p^u(w3g*72&_34-4yxesg#hqektaofnfpmb^geqlz1%c0jy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"] # cover the three things a browser/curl might send. Don't ship "*" to production.
 
 
 # Application definition
@@ -81,8 +81,8 @@ DATABASES = {
         "NAME": "wines",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "localhost",  
-        "PORT": 5454, # This is the port on the host machine (which will be mapped to 5432 in the container)
+        "HOST": "db",  # Docker will handle resolving the container name to an IP address.
+        "PORT": 5432, # The Django container and Postgres are on the same network now, so no need for port mapping
     }
 }
 

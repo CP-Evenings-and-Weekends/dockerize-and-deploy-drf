@@ -1,4 +1,4 @@
-# exec(open("./setup_data.py").read())
+exec(open("./setup_data.py").read())
 
 from wine_api.models import Wine
 
