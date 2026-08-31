@@ -2,11 +2,9 @@ FROM python:3.13-bookworm
 
 WORKDIR /src
 
-COPY ./requirements.txt .
-
-RUN pip install -r requirements.txt
-
 COPY . .
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 # CHANGE ME: replace `wines.wsgi:application` with your project's WSGI module
 # e.g. `school_proj.wsgi:application` or `publisher.wsgi:application`
