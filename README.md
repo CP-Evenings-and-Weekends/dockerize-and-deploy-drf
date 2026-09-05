@@ -62,7 +62,7 @@ Follow the [Deploying to AWS with Docker](https://github.com/CP-Evenings-and-Wee
 - Stop and restart the containers — your data should persist (that's what the `postgres_data` volume is for)
 
 ## Things to think about
-- The lesson's Dockerfile uses `python:3.12-slim`, which works because the wine API pins `psycopg2-binary` — it installs from a prebuilt wheel.  The starter Dockerfile here uses `python:3.13-bookworm`, a fuller image that ships the build tools and `libpq` headers needed to compile plain `psycopg2` from source, in case the app you picked pins that instead.  What does each choice buy you, and when would you insist on one over the other?
+- The Dockerfile uses `python:3.12-slim`, which works because the wine API pins `psycopg2-binary` — it installs from a prebuilt wheel, so no compiler or `libpq` headers are needed.  If the app you picked pins plain `psycopg2` instead, the build will fail on `-slim`; you'd need to `apt-get install -y gcc libpq-dev` first (or switch the app to `psycopg2-binary`).  What does each choice buy you, and when would you insist on one over the other?
 - `sleep 5` before running migrations is fragile.  What's a more robust way to wait for Postgres to be ready?  (Hint: healthchecks + `depends_on: condition: service_healthy`.)
 - `ALLOWED_HOSTS = ['*']` works for local dev but is risky in production.  Why?  How does the host-header check protect you?
 - Your DB password is in `docker-compose.yml` right now.  What's the standard way to keep secrets out of source control on AWS?  (Hint: env vars from a `.env` file you don't commit.)
