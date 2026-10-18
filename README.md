@@ -26,7 +26,7 @@ The included `Dockerfile`, `docker-compose.yml`, `run_compose.sh`, and `stop_com
 - Update `settings.py`:
   - `DATABASES['default']['HOST'] = 'db'` (the service name from `docker-compose.yml`)
   - `DATABASES['default']['PORT'] = 5432`
-  - `ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']` so the browser request's `Host` header matches
+  - `ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0').split(',')` so the browser request's `Host` header matches locally, and so the EC2 IP can be added later without a code change
 - Use the included `run_compose.sh` to bring everything up and run migrations:
   ```bash
   chmod +x run_compose.sh stop_compose.sh
@@ -51,9 +51,10 @@ Follow the [Deploying to AWS with Docker](https://github.com/CP-Evenings-and-Wee
 1. Launch an EC2 instance (Amazon Linux 2023, t2.micro free tier)
 2. `chmod 400 <KEYNAME>.pem` (don't skip this — SSH refuses world-readable keys)
 3. SSH in, install Docker + git, clone your app repo
-4. `./run_compose.sh` (or run `docker compose up -d --build` manually)
-5. Open port 8000 on the security group (or use port 80 with nginx — see Stretch)
-6. Visit `http://<EC2_PUBLIC_IPV4>:8000/<your-endpoint>/` in your browser
+4. Add the instance's public IP to `ALLOWED_HOSTS`: in `docker-compose.yml`, give the `api` service `environment:` with `- ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,<EC2_PUBLIC_IPV4>`.  Without this, Django answers every request with `400 Bad Request`
+5. `./run_compose.sh` (or run `docker compose up -d --build` manually)
+6. Open port 8000 on the security group (or use port 80 with nginx — see Stretch)
+7. Visit `http://<EC2_PUBLIC_IPV4>:8000/<your-endpoint>/` in your browser
 
 ### 4. Verify
 
